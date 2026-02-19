@@ -10,6 +10,7 @@ from utils import (
     PATH_IN_TRAINING,
     PATH_IN_VALID,
     PATH_OUT_MODEL,
+    PATH_OUT_MODEL_ONNX,
     TRAINING_TRANS,
     get_logger,
 )
@@ -52,7 +53,7 @@ def train(
 
             print(f"Image: {i}/{len(training_data) - 1}", end="\r")
 
-        training_time = training_start_time - datetime.datetime.now()
+        training_time = datetime.datetime.now() - training_start_time
         valid_accuracy = 0
         valid_loss = 0
         neural_network = neural_network.eval()
@@ -113,8 +114,19 @@ def main(logger: logging.Logger) -> None:
         training_data, validation_data, neural_network, criterion, optimiser, 5, logger
     )
 
-    logger.info(f"Saving model to {PATH_OUT_MODEL}...")
+    logger.info(f"Saving Pytorch model to {PATH_OUT_MODEL}...")
     torch.save(trained_neural_network, PATH_OUT_MODEL)
+
+    logger.info(f"Exporting ONNX model to {PATH_OUT_MODEL_ONNX}...")
+    torch.onnx.export(
+        trained_neural_network,
+        (torch.randn(1, 3, 224, 224),),  # Dummy model input.
+        PATH_OUT_MODEL_ONNX,
+        input_names=["image"],
+        output_names=["predictions"],
+        dynamic_axes={"image": {0: "batch_size"}, "predictions": {0: "batch_size"}},
+        opset_version=18,  #
+    )
 
 
 if __name__ == "__main__":
@@ -123,4 +135,3 @@ if __name__ == "__main__":
         main(logger)
     except Exception as e:
         logger.exception(e)
-
