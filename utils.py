@@ -5,13 +5,15 @@ from torchvision import transforms
 
 PATH_IN = os.path.join("data")
 PATH_OUT = os.path.join("out")
-PATH_OUT_LOG = os.path.join(PATH_OUT, "log.txt")
 
 PATH_IN_TRAINING = os.path.join(PATH_IN, "training")
 PATH_IN_TEST = os.path.join(PATH_IN, "test")
 PATH_IN_VALID = os.path.join(PATH_IN, "valid")
 
 PATH_OUT_MODEL = os.path.join(PATH_OUT, "model.pth")
+PATH_OUT_MODEL_ONNX = os.path.join(PATH_OUT, "model.onnx")
+PATH_OUT_CM = os.path.join(PATH_OUT, "confusion_matrix.png")
+PATH_OUT_LOG = os.path.join(PATH_OUT, "log.txt")
 
 # Transformations for a training dataset.
 TRAINING_TRANS = transforms.Compose(
