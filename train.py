@@ -6,12 +6,14 @@ import torch
 from torchvision import datasets, models
 
 from utils import (
+    BATCH_SIZE,
     DEFAULT_TRANS,
     PATH_IN_TRAINING,
     PATH_IN_VALID,
     PATH_OUT_MODEL,
     PATH_OUT_MODEL_ONNX,
     TRAINING_TRANS,
+    WORKER_COUNT,
     get_logger,
 )
 
@@ -99,12 +101,15 @@ def main(logger: logging.Logger) -> None:
     logger.info(f"Validation set size: {len(validation_set)}")
 
     logger.info("Preprocessing...")
-    training_data = torch.utils.data.DataLoader(training_set, 8, True, num_workers=8)
+    logger.info(f"Batch size: {BATCH_SIZE}, Worker count: {WORKER_COUNT}")
+    training_data = torch.utils.data.DataLoader(
+        training_set, BATCH_SIZE, True, num_workers=WORKER_COUNT
+    )
     validation_data = torch.utils.data.DataLoader(
-        validation_set, 16, True, num_workers=8
+        validation_set, BATCH_SIZE, True, num_workers=WORKER_COUNT
     )
 
-    neural_network.fc = torch.nn.Linear(2048, 5)  #
+    neural_network.fc = torch.nn.Linear(2048, 5)  # 2048 pixels to 5 classes.
     criterion = torch.nn.CrossEntropyLoss()  #
     optimiser = torch.optim.SGD(
         neural_network.parameters(), lr=1e-2, weight_decay=1e-4

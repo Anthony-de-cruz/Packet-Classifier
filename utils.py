@@ -15,6 +15,13 @@ PATH_OUT_MODEL_ONNX = os.path.join(PATH_OUT, "model.onnx")
 PATH_OUT_CM = os.path.join(PATH_OUT, "confusion_matrix.png")
 PATH_OUT_LOG = os.path.join(PATH_OUT, "log.txt")
 
+# Current value assumed for a CPU.
+# Increase to at least 16(?) on a GPU.
+BATCH_SIZE = 1
+
+# Adjust for CPU core count.
+WORKER_COUNT = 4
+
 # Transformations for a training dataset.
 TRAINING_TRANS = transforms.Compose(
     [
