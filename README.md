@@ -22,6 +22,8 @@ pip install -r requirements.txt
 python train.py && python test.py
 ```
 
+Windows:
+
 ```ps1
 python -m venv .venv
 .venv\Scripts\activate
