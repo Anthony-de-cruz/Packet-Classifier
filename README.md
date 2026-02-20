@@ -2,9 +2,9 @@
 
 Scripts to train and evaluate a Resnet-50 based neural network to classify encrypted network packets. Exports to both Pytorch/.pth and ONNX.
 
-Currently setup for CPU based execution; additional work is required for CUDA execution. As a result, we are only training 5 epochs.
+Intended for use [here](git@github.com:Anthony-de-cruz/Packet-Forwarding-Service.git)
 
-Training/Testing data currently not included.
+Currently setup for CPU based execution; additional work is required for CUDA execution. As a result, we are only training 5 epochs. Training/Testing data currently not included.
 
 ![Confusion Matrix](docs/confusion_matrix.png)
 
