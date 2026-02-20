@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+
 from torchvision import transforms
 
 PATH_IN = os.path.join("data")
@@ -17,10 +18,10 @@ PATH_OUT_LOG = os.path.join(PATH_OUT, "log.txt")
 
 # Current value assumed for a CPU.
 # Increase to at least 16(?) on a GPU.
-BATCH_SIZE = 1
+BATCH_SIZE = 4
 
 # Adjust for CPU core count.
-WORKER_COUNT = 4
+WORKER_COUNT = 8
 
 # Transformations for a training dataset.
 TRAINING_TRANS = transforms.Compose(

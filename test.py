@@ -81,7 +81,6 @@ def main(logger: logging.Logger) -> None:
     testing_set = datasets.ImageFolder(PATH_IN_TEST, DEFAULT_TRANS)
     logger.info(f"Testing set size: {len(testing_set)}")
 
-    # Batch size 1 since we are assuming CPU.
     logger.info("Preprocessing...")
     logger.info(f"Batch size: {BATCH_SIZE}, Worker count: {WORKER_COUNT}")
     testing_data = torch.utils.data.DataLoader(

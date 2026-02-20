@@ -111,12 +111,30 @@ def main(logger: logging.Logger) -> None:
 
     neural_network.fc = torch.nn.Linear(2048, 5)  # 2048 pixels to 5 classes.
     criterion = torch.nn.CrossEntropyLoss()  #
-    optimiser = torch.optim.SGD(
-        neural_network.parameters(), lr=1e-2, weight_decay=1e-4
-    )  #
 
+    logger.info("Beginning FC layer training...")
+    for name, param in neural_network.named_parameters():
+        if "fc" not in name:
+            param.requires_grad = False
+    optimiser = torch.optim.SGD(
+        neural_network.parameters(),
+        lr=1e-2, # High learning rate
+        weight_decay=1e-4
+    )
     trained_neural_network = train(
-        training_data, validation_data, neural_network, criterion, optimiser, 5, logger
+        training_data, validation_data, neural_network, criterion, optimiser, 10, logger
+    )
+
+    logger.info("Beginning global training...")
+    for name, param in neural_network.named_parameters():
+        param.requires_grad = True
+    optimiser = torch.optim.SGD(
+        neural_network.parameters(),
+        lr=1e-3, # Lowered learning rate
+        weight_decay=1e-4
+    )
+    trained_neural_network = train( 
+        training_data, validation_data, neural_network, criterion, optimiser, 20, logger
     )
 
     logger.info(f"Saving Pytorch model to {PATH_OUT_MODEL}...")
